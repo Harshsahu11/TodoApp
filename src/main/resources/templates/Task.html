@@ -3,27 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <title>Todo Application</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            width: 500px;
+            margin: 40px auto;
+        }
+        h1{
+            text-align:center;
+        }
+        form{
+            display:flex;
+            gap:10px;
+            margin-bottom:20px;
+        }
+        input{
+            flex:1;
+            padding:8px;
+        }
+        button{
+            padding:8px 16px;
+            cursor:pointer;
+        }
+        .task{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:10px;
+            border:1px solid #ddd;
+            margin-bottom:10px;
+        }
+        .completed{
+            text-decoration: line-through;
+            color: gray;
+        }
+        a{
+            margin-left:10px;
+            text-decoration:none;
+        }
+    </style>
 </head>
 <body>
 <h1>Todo Application</h1>
-<div>
-    <th:block th:each="task : ${tasks}">
-        <form action="/" method="post">
-            <div>
-                <input
-                        type="text"
-                        name="title"
-                        placeholder="Add a new task..."
-                        required>
-            </div>
-            <div>
-                <button type="submit">Add</button>
-            </div>
-        </form>
-        <div>
-            <span th:text="${task.title}">Task Title</span>
-        </div>
-    </th:block>
+<!-- Add Task -->
+<form th:action="@{/}" method="post">
+    <input
+            type="text"
+            name="title"
+            placeholder="Add a new task..."
+            required>
+
+    <button type="submit">Add</button>
+</form>
+<!-- Task List -->
+<div th:each="task : ${tasks}" class="task">
+
+    <span
+            th:text="${task.title}"
+            th:classappend="${task.completed} ? 'completed' : ''">
+        Task Title
+    </span>
+
+    <div>
+        <a th:href="@{/{id}/toggle(id=${task.id})}">
+            <span th:text="${task.completed} ? 'Undo' : 'Done'"></span>
+        </a>
+        <a th:href="@{/{id}/delete(id=${task.id})}">
+            Delete
+        </a>
+    </div>
 </div>
 </body>
 </html>
