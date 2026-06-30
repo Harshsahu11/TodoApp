@@ -8,4 +8,9 @@ public interface TaskService {
 
     List<Task> getAllTasks();
 
+    void addTask(String title);
+
+    void deleteTask(Long id);
+
+    void toggleTask(Long id);
 }

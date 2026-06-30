@@ -20,4 +20,25 @@ public class TaskServiceImpl implements TaskService {
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
     }
+
+    @Override
+    public void addTask(String title) {
+        Task task = new Task();
+        task.setTitle(title);
+        task.setCompleted(false);
+        taskRepository.save(task);
+    }
+
+    @Override
+    public void deleteTask(Long id) {
+        taskRepository.deleteById(id);
+    }
+
+    @Override
+    public void toggleTask(Long id) {
+        Task task = taskRepository.findById(id)
+                .orElseThrow(()-> new IllegalArgumentException("Invalid task"));
+        task.setCompleted(!task.isCompleted());
+        taskRepository.save(task);
+    }
 }
